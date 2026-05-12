@@ -1,0 +1,5 @@
+[
+  { "username": "Deepak.kumar@gmail.com", "password": "123456", "valid": true },
+  { "username": "Deepak.Singh@gmail.com", "password": "123456", "valid": true },
+  { "username": "Deepak.kumar1@gmail.com", "password": "123456", "valid": false }
+]
