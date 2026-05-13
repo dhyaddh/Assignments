@@ -9,29 +9,29 @@
 
 //Syntax of if-else conditional statement
 
-if(condition){
-    //code to be executed when the condition is true
-}else if(condition){
-    //code to be executed when the condition is true
-} else if(condition){
-    //code to be executed when the condition is true
-} else {
-    //code to be executed when all the above conditions are false
-}
+// if(condition){
+//     //code to be executed when the condition is true
+// }else if(condition){
+//     //code to be executed when the condition is true
+// } else if(condition){
+//     //code to be executed when the condition is true
+// } else {
+//     //code to be executed when all the above conditions are false
+// }
 
 
 //Syntax of nested if-else conditional statement
 
-if(condition){
-    //code to be executed when the condition is true
-    if(condition){
-        //code to be executed when the condition is true
-    } else {
-        //code to be executed when the condition is false
-    }
-} else {
-    //code to be executed when the condition is false
-}
+// if(condition){
+//     //code to be executed when the condition is true
+//     if(condition){
+//         //code to be executed when the condition is true
+//     } else {
+//         //code to be executed when the condition is false
+//     }
+// } else {
+//     //code to be executed when the condition is false
+// }
 
 //Example of if-else conditional statement
 
