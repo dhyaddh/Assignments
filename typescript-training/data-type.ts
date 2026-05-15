@@ -80,9 +80,9 @@ let person: personInfo = {
 }
 
 //Array => Array represents a list of values. 
-let fruits: string[] = ["apple", "banana", "orange", "mango"];
-let prices: number[] = [300, 80, 200, 220];
-let fruitsAndPrices: (string | number)[] = ["apple", 300, "banana", 80, "orange", 200, "mango", 220];
+let fruits1: string[] = ["apple", "banana", "orange", "mango"];
+let prices1: number[] = [300, 80, 200, 220];
+let fruitsAndPrices1: (string | number)[] = ["apple", 300, "banana", 80, "orange", 200, "mango", 220];
 
 //tuple => tuples represents a list of values in specific order
 
