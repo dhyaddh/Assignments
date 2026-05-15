@@ -6,7 +6,7 @@ interface personInfo {
     age: number,
     visaStatus: boolean,
     salary?: number,
-    address: {
+    address1: {
         city: string,
         state: string,
         zip: number,
@@ -22,7 +22,6 @@ let person1: personInfo = {
         city: "hyd",
         state: "TS",
         zip: 500081,
-        country: "India"
     }
 }
 
@@ -40,7 +39,6 @@ console.log(person1.address["zip"]);
 
 //Add salary as 200,000 in the main object and country: India in the address object. 
 person1.salary = 200000;
-person1.address.country = "India";
 
 console.log(person1);
 
