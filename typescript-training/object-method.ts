@@ -3,7 +3,7 @@
 //1. Storing the data inside the object 
 interface personInfo {
     name: string,
-    age?: number,
+    age: number,
     visaStatus: boolean,
     salary?: number,
     address: {
@@ -21,7 +21,8 @@ let person1: personInfo = {
     address: {
         city: "hyd",
         state: "TS",
-        zip: 500081
+        zip: 500081,
+        country: "India"
     }
 }
 
@@ -51,8 +52,8 @@ console.log(person1);
 
 //5. Delete the existing property from the object. 
 //Delete the age property from the person object. 
-delete person1.age;
-console.log(person1);
+// delete person1.age;
+// console.log(person1);
 
 //6. Check whether a particular property is available within the object. 
 //Verify whether age and name properties are available within the person object. 
