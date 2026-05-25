@@ -1,6 +1,6 @@
-import { Page, expect, Locator } from '@playwright/test';
+import {Page, Locator, expect} from '@playwright/test';
 
-export class UICommons {
+export class WebCommons {
 
     page: Page;
 
@@ -8,128 +8,166 @@ export class UICommons {
         this.page = page;
     }
 
-    // commom method to generate Web Element from Locator
-    async Element(locator: string): Promise<Locator> {
+    //Common method to generate a web element from the locator 
+    async element(locator: string): Promise<Locator> {
         return this.page.locator(locator);
-
     }
 
-    // common methid to Launch the application 
-
-    async launchApplication(url: string): Promise<void> {
+    //Common method to launch the application 
+    async launchApplication(url: string, title ?:string): Promise<void> {
         await this.page.goto(url);
+        if(title){
+            await expect(this.page).toHaveTitle(title);
+        }
     }
 
-    // common method to get the title of the page
-    async getTitle(): Promise<string> {
-        return this.page.title();
-    }
-
-    // common method to scroll to the element
+    //Common method to scroll to the element 
     async scrollToElement(locator: string): Promise<void> {
-        const element = await this.Element(locator);
+        const element = await this.element(locator);
         await element.scrollIntoViewIfNeeded();
     }
 
-    // common method to click on the element
+    //Common method to click on the element
     async clickElement(locator: string): Promise<void> {
-        const element = await this.Element(locator);
+        const element = await this.element(locator);
         await element.click();
     }
 
-
-    // common method to type text into the element
-    async typeText(locator: string, text: string): Promise<void> {
-        const element = await this.Element(locator);
-        await element.fill(text);
-    }
-
-    // common method to double click on the element
+    //Common method to perform double-click on the element 
     async doubleClickElement(locator: string): Promise<void> {
-        const element = await this.Element(locator);
+        const element = await this.element(locator);
         await element.dblclick();
     }
 
-    // common method to right click on the element
+    //Common method to perform right-click on the element
     async rightClickElement(locator: string): Promise<void> {
-        const element = await this.Element(locator);
-        await element.click({ button: 'right' });
+        const element = await this.element(locator);
+        await element.click({button: 'right'});
     }
 
-    // common method to hover on the element
-    async hoverOnElement(locator: string): Promise<void> {
-        const element = await this.Element(locator);
+    //Common method to hover over the element
+    async hoverOverElement(locator: string): Promise<void> {
+        const element = await this.element(locator);
         await element.hover();
     }
 
-    // common methid to select option from dropdown
+    //Common method to type within the text box element 
+    async enterText(locator: string, text: string): Promise<void> {
+        const element = await this.element(locator);
+        await  element.clear();
+        await element.fill(text);
+    }
+
+    //Common method to select the option from the dropdown 
     async selectOption(locator: string, option: string): Promise<void> {
-        const element = await this.Element(locator);
+        const element = await this.element(locator);
         await element.selectOption(option);
     }
 
-    // common methiod to check the checkbox
+    //Common method to check the checkbox
     async checkCheckbox(locator: string): Promise<void> {
-        const element = await this.Element(locator);
-        expect(await element.isChecked()).toBeFalsy();
-        await element.check();
-        await expect(element).toBeChecked();
+        const element = await this.element(locator);
+        if(!await element.isChecked()){
+            await element.check();
+        }
     }
 
-    // common methd to uncheck the checkbox
-    async uncheckCheckbox(locator: string): Promise<void> {
-        const element = await this.Element(locator);
-        expect(await element.isChecked()).toBeTruthy();
-        await element.uncheck();
-        await expect(element).not.toBeChecked();
+    //Common method to get the text from the element 
+    async getElementText(locator: string): Promise<string> {
+        const element = await this.element(locator);
+        return await element.textContent() || '';
     }
 
-    // common methiod to get the text of the element
-    async getText(locator: string): Promise<string> {
-        const element = await this.Element(locator);
-        const text = await element.textContent();
-        return text ?? '';
+    //Common method to get the value from the attribute 
+    async getElementAttribute(locator: string, attribute: string): Promise<string | null> {
+        const element = await this.element(locator);
+        return await element.getAttribute(attribute);
     }
 
-    // common method to get the attribute value of the element
-    async getAttribute(locator: string, attribute: string): Promise<string> {
-        const element = await this.Element(locator);
-        const attrValue = await element.getAttribute(attribute);
-        return attrValue ?? '';
+    //Common method to check if the element is visible
+    async isElementVisible(locator: string): Promise<void> {
+        const element = await this.element(locator);
+        await expect(element).toBeVisible();
     }
 
-    // common method to check if the element is visible or not
-    async isElementVisible(locator: string): Promise<boolean> {
-        const element = await this.Element(locator);
-        return await element.isVisible();
+    //Common method to check if an element is disappeared 
+    async isElementDisappeared(locator: string): Promise<boolean> {
+        const element = await this.element(locator);
+        return await element.isHidden();
     }
 
-    // comon method to check if the element is enabled or not
-    async isElementEnabled(locator: string): Promise<boolean> {
-        const element = await this.Element(locator);
-        return await element.isEnabled();
-    }
-
-    // common method to upload file
+    //Common method to upload a file to the element 
     async uploadFile(locator: string, filePath: string): Promise<void> {
-        const element = await this.Element(locator);
+        const element = await this.element(locator);
         await element.setInputFiles(filePath);
     }
 
-    // common method to handle alert
+    //Common method to handle alert pop-up 
     async handleAlert(action: 'accept' | 'dismiss', promptText?: string): Promise<void> {
         this.page.once('dialog', async (dialog) => {
-            if (action === 'accept') {
+            if (promptText) {
                 await dialog.accept(promptText);
             } else {
-                await dialog.dismiss();
+                if (action === 'accept') {
+                    await dialog.accept();
+                } else {
+                    await dialog.dismiss();
+                }
             }
         });
     }
 
-    // common method to take screenshot    
-    async takeScreenshot(path: string): Promise<void> {
-        await this.page.screenshot({ path });
+    //Common Methods to Take a Screenshot 
+    async takeScreenshot(filePath: string): Promise<void> {
+        await this.page.screenshot({ path: filePath });
+    }
+
+    //Common method to set the resolution of page
+    async setResolution(width: number, height: number): Promise<void> {
+        await this.page.setViewportSize({ width, height });
+    }
+
+    //Common method to refresh the page
+    async refreshPage(): Promise<void> {
+        await this.page.reload();
+    }
+
+    //Common method to locate the frame element 
+    async frameElement(frameLocator: string, frameElement: string): Promise<Locator> {
+        const element = this.page.frameLocator(frameLocator);
+        const frame = await element.locator(frameElement)
+        return frame;
+    }
+
+    //Common method to locate the element by using Playwright locator methods 
+    async locateElementByMethod(locator: string, role?: Parameters<Page['getByRole']>[0]): Promise<Locator> {
+        const values = locator.split('_');
+        const method = values[0];
+        const value = values[1];
+
+        if (method === 'getByRole') {
+            if (!role) {
+                throw new Error('Role is required for getByRole locator method.');
+            }
+            return this.page.getByRole(role, { name: value ?? '' });
+        }else if (method === 'getByText') {
+            return this.page.getByText(value ?? '');
+        } else if (method === 'getByLabel') {
+            return this.page.getByLabel(value ?? '');
+        } else if (method === 'getByPlaceholder') {
+            return this.page.getByPlaceholder(value ?? '');
+        } else if (method === 'getByAltText') {
+            return this.page.getByAltText(value ?? '');
+        } else if (method === 'getByTitle') {
+            return this.page.getByTitle(value ?? '');   
+        } 
+
+        throw new Error(`Unsupported locator method: ${method}`);
+    }
+
+    //Common method to compare the text values(actual text contained in the element and expected text)
+    async compareText(actual: string, expected: string): Promise<void> {
+        expect(actual.trim()).toContain(expected.trim());
     }
 
 }
