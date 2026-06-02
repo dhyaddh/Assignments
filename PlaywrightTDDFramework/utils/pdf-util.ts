@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { PDFParse } from 'pdf-parse';
+import pdfParse from 'pdf-parse';
 
 
 //C:\Training\PlaywrightTrainings\Mar_2026\playwright-tdd-framwork\files\Data.pdf
@@ -19,12 +19,10 @@ export class PDFUtil {
         const uint8Array = new Uint8Array(buffer);
 
         //Convert Uint8Array into PDF data. 
-        const pdfData = new PDFParse(uint8Array);
+        const pdfData = await pdfParse.default(uint8Array);
 
         //extract the text and return it
-        const data = await pdfData.getText()
-
-        return data.text;
+        return pdfData.text;
     }
 
 }
